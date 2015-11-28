@@ -1,6 +1,8 @@
-# _shark_  
+# _shark_
 
 > A [fish][Fish] port of [_spark_][spark] ▂▃▇▃▂▃▁
+
+*(an [Oh My Fish!][OMF] fork of the [original])*
 
 ## Synopsis
 
@@ -8,15 +10,11 @@ Parse a string or stream of characters and generate sparklines for any real posi
 
 ## Install
 
-```sh
-git clone https://github.com/bucaran/shark
-cd shark
-cp shark /your/bin/shark # e.g /usr/local/bin/shark
-fish -c "for i in (seq 127); random; end" | shark
-$ ▁▂▇▂▃▇▅▆▅▁▅▅▁▆▇▁▁▅▁▁▆▅▅▃▁▅▃▆▁ ...
+```fish
+$ omf install shark
+$ fish -c "for i in (seq 127); random; end" | shark
+▁▂▇▂▃▇▅▆▅▁▅▅▁▆▇▁▁▅▁▁▆▅▅▃▁▅▃▆▁ ...
 ```
-
-Or better yet, use a framework to manage your :fish: shell configuration like [oh-my-fish][OMF] and try the built-in _Shark_ plugin.
 
 ## Tests
 
@@ -99,6 +97,8 @@ Code visualization. The number of characters of `shark` itself, by line, ignorin
 
 All credit to [Zach Holman](https://github.com/holman), author of the original [_Spark_][spark]:sparkles:
 
+Thanks to [Jorge Bucaran](https://github.com/bucaran) for writing the original port.
+
 ## Bugs
 
 Issue bugs [here][issues]. Contributions are always welcome.
@@ -109,13 +109,15 @@ Check out the [official wiki][wiki] to see all the wicked cool usage for _Spark_
 
 ## License
 
-[MIT][license] © [Jorge Bucaran](http://bucaran.me)
+[MIT][license] © [Jorge Bucaran](http://bucaran.me) et [al][contributors]
 
-[issues]: http://github.com/bucaran/shark/issues
-[Fish]: https://fishshell.com
-[spark]: https://github.com/holman/spark
-[fish-tank]: https://github.com/terlar/fish-tank
-[real]: http://en.wikipedia.org/wiki/Real_number
-[OMF]: https://github.com/bpinto/oh-my-fish
-[wiki]: https://github.com/holman/spark/wiki/Wicked-Cool-Usage
-[license]: http://opensource.org/licenses/MIT
+[issues]:       http://github.com/oh-my-fish/shark/issues
+[Fish]:         https://fishshell.com
+[spark]:        https://github.com/holman/spark
+[original]:     https://github.com/bucaran/shark
+[fish-tank]:    https://github.com/terlar/fish-tank
+[real]:         http://en.wikipedia.org/wiki/Real_number
+[OMF]:          https://github.com/oh-my-fish
+[wiki]:         https://github.com/holman/spark/wiki/Wicked-Cool-Usage
+[license]:      http://opensource.org/licenses/MIT
+[contributors]: https://github.com/oh-my-fish/shark/graphs/contributors
