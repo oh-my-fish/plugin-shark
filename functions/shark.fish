@@ -28,11 +28,17 @@
 # v0.1.0
 #/
 function shark -d "Parse a string or stream of characters and generate sparklines for any real positive numbers in a dataset."
-  # Show help if -h\* option is set or stdin (0) is a terminal.
-  contains -- $argv[1] h -h --h --he --hel --help help
-  or [ (count $argv) -lt 1 -a -t 0 ]
-  and shark.help
-    and return 0
+  if test (count $argv) -lt 1
+    cat ^/dev/null | while read -l line
+      set argv $argv $line
+    end
+  else
+    # Show help if -h\* option is set or stdin (0) is a terminal.
+    contains -- $argv[1] h -h --h --he --hel --help help
+    or test (count $argv) -lt 1 -a -t 0
+    and shark.help
+      and return 0
+  end
 
   set -l sparks ▁ ▂ ▃ ▄ ▅ ▆ ▇ █
   set -l argv (shark.split $argv)

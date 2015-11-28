@@ -2,15 +2,15 @@
 set -l test_count 12
 function shark.test.1
   echo -n " Shows help with no argv or -h\* option"
-  shark | grep -q USAGE
-    and shark -h | grep -q USAGE
+  #shark | grep -q USAGE
+    shark -h | grep -q USAGE
       and shark --help | grep -q USAGE
 end
 function shark.test.2
-  #echo -n " Charts piped data"
-  #test (echo 0,30,55,80,33,150 | shark) = ▁▂▃▄▂█
-  #and test (printf "%s\n" 0,30,55,80,33,150 | shark) = ▁▂▃▄▂█
-  #and test (printf "%s\n\n" ,,0,,30,,55,,80,,33,,150, | shark) = ▁▂▃▄▂█
+  echo -n " Charts piped data"
+  test (echo 0,30,55,80,33,150 | shark) = ▁▂▃▄▂█
+  and test (printf "%s\n" 0,30,55,80,33,150 | shark) = ▁▂▃▄▂█
+  and test (printf "%s\n\n" ,,0,,30,,55,,80,,33,,150, | shark) = ▁▂▃▄▂█
 end
 function shark.test.3
   echo -n " Charts argv data"
