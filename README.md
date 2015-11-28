@@ -38,9 +38,6 @@ Testing Shark...
  Neutralizes negative numbers ✔
 ```
 
-The current implementation uses a simple ad-hoc test run based in the original. Check [Oh-My-Fish](https://github.com/bpinto/oh-my-fish)'s [fish-spec](https://github.com/bpinto/oh-my-fish/tree/master/plugins/fish-spec) or [terlar/fish-tank][fish-tank] for a more consistent test framework.
-
-
 ## Usage Instructions
 
 Run `shark <number>...` with a list of [real][real] numbers separated by spaces, commas, anything.
@@ -111,7 +108,7 @@ Check out the [official wiki][wiki] to see all the wicked cool usage for _Spark_
 
 [MIT][license] © [Jorge Bucaran](http://bucaran.me) et [al][contributors]
 
-[issues]:       http://github.com/oh-my-fish/shark/issues
+[issues]:       http://github.com/oh-my-fish/plugin-shark/issues
 [Fish]:         https://fishshell.com
 [spark]:        https://github.com/holman/spark
 [original]:     https://github.com/bucaran/shark
@@ -120,4 +117,4 @@ Check out the [official wiki][wiki] to see all the wicked cool usage for _Spark_
 [OMF]:          https://github.com/oh-my-fish
 [wiki]:         https://github.com/holman/spark/wiki/Wicked-Cool-Usage
 [license]:      http://opensource.org/licenses/MIT
-[contributors]: https://github.com/oh-my-fish/shark/graphs/contributors
+[contributors]: https://github.com/oh-my-fish/plugin-shark/graphs/contributors

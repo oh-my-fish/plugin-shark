@@ -34,9 +34,6 @@ function shark -d "Parse a string or stream of characters and generate sparkline
   and shark.help
     and return 0
 
-  test -t 0 # Collect data if stdin (0) is a pipe.
-    or set argv (cat)
-
   set -l sparks ▁ ▂ ▃ ▄ ▅ ▆ ▇ █
   set -l argv (shark.split $argv)
   set -l list (printf "%s\n" $argv | sort --numeric-sort)
