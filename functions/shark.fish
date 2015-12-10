@@ -42,7 +42,7 @@ function shark -d "Parse a string or stream of characters and generate sparkline
 
   set -l sparks ▁ ▂ ▃ ▄ ▅ ▆ ▇ █
   set -l argv (shark.split $argv)
-  set -l list (printf "%s\n" $argv | sort --numeric-sort)
+  set -l list (printf "%s\n" $argv | sort --general-numeric-sort)
   set -l min $list[1]
   set -l max $list[-1]
 
