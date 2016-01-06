@@ -1,60 +1,140 @@
-# NAME
-#      shark - sparklines for your fish
-#
-# SYNOPSIS
-#     shark [-h|--help] <value>[,...]
-#
-# DESCRIPTION
-#     Parse a string or stream of characters and generate sparklines
-#     for any real positive numbers in a dataset.
-#
-# EXAMPLES
-#     shark 1 5 22 13 53
-#       ▁▁▃▂█
-#     shark 0,30,55,80,33,150
-#       ▁▂▃▄▂█
-#     echo 1/2/3/5/6/7/5/8/2 | shark
-#       ▁▂▃▅▆▇▅█▂
-#     echo 9 13 5 17 1 | shark
-#       ▄▆▂█▁
-#
-# AUTHORS
-#      Jorge Bucaran <jbucaran@me.com>
-#
-# CREDITS
-#      Ported to OMF by Stephen Coakley <me@stephencoakley.com>
-#      Based on Zach Holman's Spark [github.com/holman/spark]
-#
-# v0.1.0
-#/
-function shark -d "Parse a string or stream of characters and generate sparklines for any real positive numbers in a dataset."
-  if test (count $argv) -lt 1
-    cat ^/dev/null | while read -l line
-      set argv $argv $line
+function shark -d "Sparkline Generator"
+    set -l field "%s"
+    set -l record "\n"
+    set -l delim "[, ]"
+    set -l line 0
+    set -l min -1
+    set -l max 0
+    set -l null " "
+
+    set -l shark_version
+
+    while set optarg (getopts ":n:line: f:field: r:record: M:max: m:min: d:delim: n:null v:version h:help" $argv)
+        switch $optarg[1]
+            case n line
+                set line 1
+                switch "$optarg[2]"
+                    case 0 false
+                        set line 0
+                end
+
+            case null
+                set null "$optarg[2]"
+
+            case m min
+                set min "$optarg[2]"
+
+            case M max
+                set max "$optarg[2]"
+
+            case f field
+                set field "$optarg[2]"
+
+            case r record
+                set record "$optarg[2]"
+
+            case d delim
+                set delim "$optarg[2]"
+
+            case v version
+                printf "shark version %s\n" $shark_version
+                return
+
+            case h help
+                printf "usage: shark [--line] [--field[=<format>]] [--record[=<format>]]  \n"
+                printf "             [--max=<n>] [--min=<n>] [--delim=<regex>] [--help] \n\n"
+
+                printf "               -n --line  Process each line as a record         \n"
+                printf "     -f --field=<format>  Set field output format               \n"
+                printf "    -r --record=<format>  Set record output format              \n"
+                printf "       -m --min=<number>  Set minimum numeric value             \n"
+                printf "       -M --max=<number>  Set maximum numeric value             \n"
+                printf "      -d --delim=<regex>  Use <regex> as number separator       \n"
+                printf "         --null=<string>  Use <string> to display null values   \n"
+                printf "            -v --version  Show version information              \n"
+                printf "               -h --help  Show this help                        \n"
+                return
+
+            case \*
+                printf "shark: '%s' is not a valid option\n" $optarg[1] >& 2
+                shark --help >& 2
+                return 1
+        end
     end
-  else
-    # Show help if -h\* option is set or stdin (0) is a terminal.
-    contains -- $argv[1] h -h --h --he --hel --help help
-    or test (count $argv) -lt 1 -a -t 0
-    and shark.help
-      and return 0
-  end
 
-  set -l sparks ▁ ▂ ▃ ▄ ▅ ▆ ▇ █
-  set -l argv (shark.split $argv)
-  set -l list (printf "%s\n" $argv | sort --general-numeric-sort)
-  set -l min $list[1]
-  set -l max $list[-1]
+    set -lx LC_ALL "en_US.UTF-8"
 
-  # At least 2 blocks to prevent zero division if data is constant.
-  test $min -eq $max
-    and set sparks ▅ ▆
+    awk -v FS="$delim"      \
+        -v line=$line       \
+        -v ORS="$record"    \
+        -v OFS="$field"     \
+        -v null="$null"     \
+        -v min="$min"       \
+        -v max="$max" '
 
-  set -l fit (math "(($max)/1-($min)/1) * 2^8 / ("(count $sparks)"-1)")
-  test $fit -lt 1
-    and set fit 1
+        ##shark.awk##
+BEGIN {
+    tickLength = split("▁ ▂ ▃ ▄ ▅ ▆ ▇ █", ticks, " ")
 
-  for val in $argv
-    echo -n $sparks[(math "(($val)/1-($min)/1) * 2^8 / $fit + 1")]
-  end
+    hasMax = max > 0
+    hasMin = min >= 0
+
+    max = min > max ? min : max
+}
+
+!/^ *$/ {
+    if (line) {
+        fieldIndex = 0
+        min = hasMin ? min : -1
+        max = hasMax ? max : 0
+    }
+
+    for (n = 1; n <= NF; n++) {
+        $n = buffer[++fieldIndex] = ($n ~ /^[0-9]*\.?[0-9]+$/) ? $n : ""
+
+        if (!hasMax) max = ($n > max) ? $n : max
+        if (!hasMin) min = (min < 0 || $n < min) ? ($n == "" ? min : $n) : min
+        if (hasMax && hasMin) plot($n)
+    }
+
+    if (line) {
+        if (!(hasMax && hasMin)) {
+            plotBuffer(fieldIndex)
+        }
+
+        printf(ORS, max, min, fieldIndex)
+    }
+}
+
+END {
+    if (line || !fieldIndex) exit !fieldIndex
+    if (!(hasMax && hasMin)) plotBuffer(fieldIndex)
+
+    printf(ORS, max, min, fieldIndex)
+}
+
+function plot(value, tickIndex) {
+    tickToken = null
+
+    if (value >= 0) {
+
+        tickIndex = int((value / (!max ? 1 : max) * tickLength) - 1) + 1
+
+        tickIndex = (tickIndex <= 0) ? 1 : tickIndex
+        tickIndex = (tickIndex > 8 || max == value) ? 8 : tickIndex
+        tickIndex = (min == max) ? 5 : tickIndex
+        tickIndex = (max == 0) ? 1 : tickIndex
+
+        tickToken = ticks[tickIndex]
+    }
+
+    printf(OFS, tickToken, value)
+}
+
+function plotBuffer(fieldIndex) {
+    for (i = 1; i <= fieldIndex; i++) {
+        plot(buffer[i])
+    }
+}
+    '
 end

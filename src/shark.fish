@@ -9,32 +9,32 @@ function shark -d "Sparkline Generator"
 
     set -l shark_version
 
-    getopts $argv | while read -l 1 2
-        switch $1
+    while set optarg (getopts ":n:line: f:field: r:record: M:max: m:min: d:delim: n:null v:version h:help" $argv)
+        switch $optarg[1]
             case n line
                 set line 1
-                switch "$2"
+                switch "$optarg[2]"
                     case 0 false
                         set line 0
                 end
 
             case null
-                set null "$2"
+                set null "$optarg[2]"
 
             case m min
-                set min "$2"
+                set min "$optarg[2]"
 
             case M max
-                set max "$2"
+                set max "$optarg[2]"
 
             case f field
-                set field "$2"
+                set field "$optarg[2]"
 
             case r record
-                set record "$2"
+                set record "$optarg[2]"
 
             case d delim
-                set delim "$2"
+                set delim "$optarg[2]"
 
             case v version
                 printf "shark version %s\n" $shark_version
@@ -56,7 +56,7 @@ function shark -d "Sparkline Generator"
                 return
 
             case \*
-                printf "shark: '%s' is not a valid option\n" $1 >& 2
+                printf "shark: '%s' is not a valid option\n" $optarg[1] >& 2
                 shark --help >& 2
                 return 1
         end
