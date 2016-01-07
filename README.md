@@ -1,20 +1,34 @@
-# _shark_
+<p align="center">
+  <a href="http://github.com/bucaran/shark">
+    <img alt="Shark" width=560px  src="https://cloud.githubusercontent.com/assets/8317250/12073365/6aae8b94-b160-11e5-8fbb-5eeef449d693.png">
+  </a>
+</p>
 
-> A [fish][Fish] port of [_spark_][spark] ▂▃▇▃▂▃▁
+## About
 
-*(an [Oh My Fish!][OMF] fork of the [original])*
+Shark is a [sparkline][sparkline] generator for [fish][fish-shell].
 
-## Synopsis
-
-Parse a string or stream of characters and generate sparklines for any real positive numbers in a dataset.
+This is a fork of the [official Shark repository][official], packaged to be installable for [Oh My Fish!][OMF].
 
 ## Install
 
+With [Oh My Fish!][omf]:
+
 ```fish
-$ omf install shark
-$ fish -c "for i in (seq 127); random; end" | shark
-▁▂▇▂▃▇▅▆▅▁▅▅▁▆▇▁▁▅▁▁▆▅▅▃▁▅▃▆▁ ...
+omf install shark
+seq 8 | shark
+$ ▁▂▃▄▅▆▇█
 ```
+
+To install with [Fisherman][fisherman], see the [official repository][official].
+
+## Synopsis
+
+A sparkline is a type of line chart that provides a simple representation of numerical or statistical variation in some measurement, typically over time.
+
+Shark reads the standard input extracting numeric values and produces a stream of UTF-8 block characters of increasing height. Input is read up to NULL and processed as a single record by default. To process each line as a separate record, use the `--line` flag.
+
+To process the input in real time, use `--max`=*number* and `--min`=*number* to set the dataset range in advance.
 
 ## Usage Instructions
 
@@ -68,86 +82,32 @@ Code visualization. The number of characters of `shark` itself, by line, ignorin
   ▁▁▁▁▅▁▇▁▁▅▁▁▁▁▁▂▂▁▃▃▁▁▃▁▃▁▂▁▁▂▂▅▂▃▂▃▃▁▆▃▃▃▁▇▁▁▂▂▂▇▅▁▂▂▁▇▁▃▁▇▁▂▁▇▁▁▆▂▁▇▁▂▁▁▂▅▁▂▁▆▇▇▂▁▂▁▁▁▂▂▁▅▁▂▁▁▃▁▃▁▁▁▃▂▂▂▁▁▅▂▁▁▁▁▂▂▁▁▁▂▂
 ```
 
-## Credits
-
-All credit to [Zach Holman](https://github.com/holman), author of the original [_Spark_][spark]:sparkles:
-
-Thanks to [Jorge Bucaran](https://github.com/bucaran) for writing the original port.
-
-## Bugs
-
-Issue bugs [here][issues]. Contributions are always welcome.
-
-## More
-
-Check out the [official wiki][wiki] to see all the wicked cool usage for _Spark_, _Shark_ and relatives.
-
-## License
-
-[MIT][license] © [Jorge Bucaran](http://bucaran.me) et [al][contributors]
-
-[issues]:       http://github.com/oh-my-fish/plugin-shark/issues
-[Fish]:         https://fishshell.com
-[spark]:        https://github.com/holman/spark
-[original]:     https://github.com/bucaran/shark
-[fish-tank]:    https://github.com/terlar/fish-tank
-[real]:         http://en.wikipedia.org/wiki/Real_number
-[OMF]:          https://github.com/oh-my-fish
-[wiki]:         https://github.com/holman/spark/wiki/Wicked-Cool-Usage
-[license]:      http://opensource.org/licenses/MIT
-[contributors]: https://github.com/oh-my-fish/plugin-shark/graphs/contributors
-=======
-<p align="center">
-  <a href="http://github.com/bucaran/shark">
-    <img alt="Shark" width=560px  src="https://cloud.githubusercontent.com/assets/8317250/12073365/6aae8b94-b160-11e5-8fbb-5eeef449d693.png">
-  </a>
-</p>
-
-[![][travis-badge]][travis-link]
-
-## About
-
-Shark is a [sparkline][sparkline] generator for [fish][fish-shell].
-
-* See a [demo][screencast].
-
-
-## Install
-
-With [Fisherman][fisherman]:
-
-```fish
-fisher install shark
-seq 8 | shark
-$ ▁▂▃▄▅▆▇█
-```
-
-## Synopsis
-
-A sparkline is a type of line chart that provides a simple representation of numerical or statistical variation in some measurement, typically over time.
-
-Shark reads the standard input extracting numeric values and produces a stream of UTF-8 block characters of increasing height. Input is read up to NULL and processed as a single record by default. To process each line as a separate record, use the `--line` flag.
-
-To process the input in real time, use `--max`=*number* and `--min`=*number* to set the dataset range in advance.
-
-
 ## Help
 
 See [`shark(1)`][shark-1] for command usage and [examples][examples]. For support and feedback browse the [issues][issues].
+
+## Bugs
+
+Issue bugs [here][issues] at the official repository. Contributions are always welcome.
 
 ## Credits
 
 Shark draws heavily from [Zach Holman](https://github.com/holman)'s original [_Spark_][spark]. Thanks to him.
 
-<!-- Links  -->
+## License
 
-[spark]:        https://github.com/holman/spark
-[issues]:       http://github.com/bucaran/shark/issues
-[shark-1]:      man/man1/shark.md
+[MIT][license] © [Jorge Bucaran](http://bucaran.me) et [al][contributors]
+
+[contributors]: https://github.com/oh-my-fish/plugin-shark/graphs/contributors
 [examples]:     man/man1/shark.md#examples
-[sparkline]:    https://en.wikipedia.org/wiki/Sparkline
+[fish-shell]:   https://fishshell.com
 [fisherman]:    https://github.com/fisherman/fisherman
+[issues]:       https://github.com/bucaran/shark/issues
+[license]:      http://opensource.org/licenses/MIT
+[official]:     https://github.com/bucaran/shark
+[omf]:          https://github.com/oh-my-fish
+[real]:         http://en.wikipedia.org/wiki/Real_number
 [screencast]:   https://asciinema.org/a/32942?autoplay=1
-[fish-shell]:   https://github.com/fish-shell/fish-shell
-[travis-link]:  https://travis-ci.org/bucaran/shark
-[travis-badge]: https://img.shields.io/travis/bucaran/shark.svg?style=flat-square
+[shark-1]:      man/man1/shark.md
+[spark]:        https://github.com/holman/spark
+[sparkline]:    https://en.wikipedia.org/wiki/Sparkline
