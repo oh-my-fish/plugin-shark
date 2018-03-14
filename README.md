@@ -1,5 +1,7 @@
 # _shark_
 
+**This package has been archived in favor of the newer [spark](https://github.com/oh-my-fish/plugin-spark) plugin, which installs the official [spark] by Zach Holman.**
+
 > A [fish][Fish] port of [_spark_][spark] ▂▃▇▃▂▃▁
 
 *(an [Oh My Fish!][OMF] fork of the [original])*
